@@ -1,26 +1,25 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Live2Dデモ</title>
-  <style>
-    html, body { margin: 0; padding: 0; height: 100%; background: #111; }
-    canvas { display: block; width: 100%; height: 100%; }
-  </style>
-</head>
-<body>
-  <canvas id="live2d"></canvas>
-  <script src="https://unpkg.com/live2d-widget@3.1.4/lib/L2Dwidget.min.js"></script>
-  <script>
-    L2Dwidget.init({
-      model: {
-        jsonPath: "https://unpkg.com/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json",
-      },
-      display: { position: "center", width: 200, height: 400 },
-      mobile: true,
-      react: { opacityDefault: 1, opacityOnHover: 1 }
+<script type="module">
+  import * as PIXI from "https://cdn.skypack.dev/pixi.js";
+  import { Live2DModel } from "https://cdn.skypack.dev/pixi-live2d-display";
+
+  const app = new PIXI.Application({
+    view: document.getElementById("live2d"),
+    autoStart: true,
+    backgroundAlpha: 0,
+    resizeTo: window
+  });
+
+  const modelUrl = "https://unpkg.com/live2d-widget-model-epsilon2_1@1.0.5/assets/Epsilon2.1.model.json";
+
+  Live2DModel.from(modelUrl).then(model => {
+    model.scale.set(0.4);
+    model.x = window.innerWidth / 2;
+    model.y = window.innerHeight * 0.9;
+    model.anchor.set(0.5, 1);
+    app.stage.addChild(model);
+
+    window.addEventListener("pointerdown", (e) => {
+      model.lookAt(e.clientX, e.clientY);
     });
-  </script>
-</body>
-</html>
+  });
+</script>
