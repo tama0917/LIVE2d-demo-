@@ -1,25 +1,52 @@
-<script type="module">
-  import * as PIXI from "https://cdn.skypack.dev/pixi.js";
-  import { Live2DModel } from "https://cdn.skypack.dev/pixi-live2d-display";
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Live2D 視線追従デモ</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: black;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="live2d"></canvas>
 
-  const app = new PIXI.Application({
-    view: document.getElementById("live2d"),
-    autoStart: true,
-    backgroundAlpha: 0,
-    resizeTo: window
-  });
+  <script type="module">
+    import * as PIXI from "https://cdn.skypack.dev/pixi.js";
+    import { Live2DModel } from "https://cdn.skypack.dev/pixi-live2d-display";
 
-  const modelUrl = "https://unpkg.com/live2d-widget-model-epsilon2_1@1.0.5/assets/Epsilon2.1.model.json";
-
-  Live2DModel.from(modelUrl).then(model => {
-    model.scale.set(0.4);
-    model.x = window.innerWidth / 2;
-    model.y = window.innerHeight * 0.9;
-    model.anchor.set(0.5, 1);
-    app.stage.addChild(model);
-
-    window.addEventListener("pointerdown", (e) => {
-      model.lookAt(e.clientX, e.clientY);
+    const app = new PIXI.Application({
+      view: document.getElementById("live2d"),
+      autoStart: true,
+      backgroundAlpha: 0,
+      resizeTo: window
     });
-  });
-</script>
+
+    const modelUrl = "https://unpkg.com/live2d-widget-model-epsilon2_1@1.0.5/assets/Epsilon2.1.model.json";
+
+    Live2DModel.from(modelUrl).then(model => {
+      model.scale.set(0.4);
+      model.x = window.innerWidth / 2;
+      model.y = window.innerHeight * 0.9;
+      model.anchor.set(0.5, 1);
+      app.stage.addChild(model);
+
+      window.addEventListener("pointermove", (e) => {
+        model.lookAt(e.clientX, e.clientY);
+      });
+
+      window.addEventListener("pointerdown", (e) => {
+        model.lookAt(e.clientX, e.clientY);
+      });
+    });
+  </script>
+</body>
+</html>
