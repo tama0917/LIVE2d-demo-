@@ -21,14 +21,14 @@
       resizeTo: window,
     });
 
-    // ← ここでフォルダと model3.json を指定
-    PIXI.live2d.Live2DModel.from("Live2DModel/model.model3.json").then(model => {
+    // ここを変更：フォルダ名＋model3.json
+    PIXI.live2d.Live2DModel.from("live2d jirai/live2d jirai.model3.json").then(model => {
       app.stage.addChild(model);
 
-      // モデルの大きさ・位置を調整
-      model.scale.set(0.5);  // 大きさ
+      // モデルの大きさ・位置調整
+      model.scale.set(0.4); // サイズ調整
       model.x = window.innerWidth / 2;  
-      model.y = window.innerHeight * 0.8;
+      model.y = window.innerHeight * 0.85;
     });
   </script>
 </body>
